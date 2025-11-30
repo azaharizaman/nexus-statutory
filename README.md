@@ -1,274 +1,308 @@
-# Nexus - Framework-Agnostic PHP Packages for ERP Systems
+# Nexus\Statutory
 
-Nexus is a **package-only monorepo** containing 50+ atomic, reusable PHP packages for building Enterprise Resource Planning (ERP) systems. Each package is framework-agnostic, making them usable with Laravel, Symfony, Slim, or any other PHP framework.
+Statutory reporting engine for generating tax and regulatory reports in country-specific formats (XBRL, JSON, XML, CSV).
 
-## 📖 The Philosophy: "Pure Business Logic, Framework Independent"
+## Overview
 
-The core philosophy of Nexus is **Framework Agnosticism**. Business logic should be portable and reusable across different frameworks and applications.
+The Statutory package provides a framework-agnostic engine for generating statutory reports required by regulatory authorities. It supports multiple output formats and can be extended with country-specific adapters for compliance with local regulations.
 
-- **🎯 Pure Business Logic**: Packages contain only business rules and domain logic
-- **🔌 Interface-Driven**: All external dependencies defined as contracts
-- **📦 Atomic & Publishable**: Each package can be published independently to Packagist
-- **🧪 Testable**: Pure PHP logic with mockable dependencies
-- **🌍 Framework-Agnostic**: Works with Laravel, Symfony, or any PHP framework
+## Features
 
-## 🏗️ Architecture
+- **Report Generation**: Generate statutory reports (P&L, Balance Sheet, Tax Forms, Payroll Reports)
+- **Multiple Formats**: Support for JSON, XML, XBRL, CSV, PDF, Excel
+- **Default Adapters**: Built-in default implementations for basic accounting and payroll
+- **Country-Specific Adapters**: Extensible architecture for country-specific requirements
+- **Metadata Management**: Comprehensive report metadata (schema, validation, filing frequency)
+- **Validation Engine**: Schema validation before report submission
+- **Framework-Agnostic**: Pure PHP with no Laravel dependencies
 
-### 📦 Atomic Packages
-
-All packages in `packages/` are self-contained units of functionality designed to be:
-
-- **Framework-Agnostic:** Pure PHP 8.3+ logic with no framework dependencies
-- **Persistence-Agnostic:** No migrations or models - data access defined via interfaces
-- **Publishable:** Each package can be published independently to Packagist
-- **Contract-Driven:** All external dependencies injected as interfaces
-- **Stateless:** Long-term state externalized via storage interfaces
-
-## 📦 Available Packages (51 packages)
-
-### Core Infrastructure (8 packages)
-- **`Nexus\Tenant`** - Multi-tenancy context and isolation engine
-- **`Nexus\Setting`** - Global and tenant-specific configuration management
-- **`Nexus\Sequencing`** - Auto-numbering with atomic counter management
-- **`Nexus\Period`** - Fiscal period management and transaction validation
-- **`Nexus\AuditLogger`** - Timeline feeds and audit trails
-- **`Nexus\EventStream`** - Event sourcing for critical domains (Finance GL, Inventory)
-- **`Nexus\Uom`** - Unit of measurement management and conversion
-- **`Nexus\Monitoring`** - Observability with telemetry, health checks, alerting, SLO tracking
-
-### Identity & Security (3 packages)
-- **`Nexus\Identity`** - Authentication, RBAC, MFA, session/token management
-- **`Nexus\Crypto`** - Cryptographic operations and key management
-- **`Nexus\Audit`** - Advanced audit capabilities (extends AuditLogger)
-
-### Finance & Accounting (7 packages)
-- **`Nexus\Finance`** - General ledger, journal entries, double-entry bookkeeping
-- **`Nexus\Accounting`** - Financial statements, period close, consolidation
-- **`Nexus\Receivable`** - Customer invoicing, collections, credit control
-- **`Nexus\Payable`** - Vendor bills, payment processing, 3-way matching
-- **`Nexus\CashManagement`** - Bank reconciliation, cash flow forecasting
-- **`Nexus\Budget`** - Budget planning and variance tracking
-- **`Nexus\Assets`** - Fixed asset management, depreciation
-- **`Nexus\Currency`** - Multi-currency management and exchange rates
-
-### Sales & Operations (6 packages)
-- **`Nexus\Sales`** - Quotation-to-order lifecycle, pricing engine
-- **`Nexus\Inventory`** - Stock management with lot/serial tracking
-- **`Nexus\Warehouse`** - Warehouse operations and bin management
-- **`Nexus\Procurement`** - Purchase requisitions, POs, goods receipt
-- **`Nexus\Manufacturing`** - Bill of materials, work orders, MRP
-- **`Nexus\Product`** - Product catalog, pricing, categorization
-
-### Human Resources (3 packages)
-- **`Nexus\Hrm`** - Leave, attendance, performance reviews
-- **`Nexus\Payroll`** - Payroll processing framework
-- **`Nexus\PayrollMysStatutory`** - Malaysian statutory calculations (EPF, SOCSO, PCB)
-
-### Customer & Partner Management (4 packages)
-- **`Nexus\Party`** - Customers, vendors, employees, contacts
-- **`Nexus\Crm`** - Leads, opportunities, sales pipeline
-- **`Nexus\Marketing`** - Campaigns, A/B testing, GDPR compliance
-- **`Nexus\FieldService`** - Work orders, technicians, service contracts
-
-### Integration & Automation (7 packages)
-- **`Nexus\Connector`** - Integration hub with circuit breaker, OAuth
-- **`Nexus\Workflow`** - Process automation, state machines
-- **`Nexus\Notifier`** - Multi-channel notifications (email, SMS, push, in-app)
-- **`Nexus\Scheduler`** - Task scheduling and job management
-- **`Nexus\DataProcessor`** - OCR, ETL interfaces (interface-only package)
-- **`Nexus\Intelligence`** - AI-assisted automation and predictions
-- **`Nexus\Geo`** - Geocoding, geofencing, routing
-- **`Nexus\Routing`** - Route optimization and caching
-
-### Reporting & Data (5 packages)
-- **`Nexus\Reporting`** - Report definition and execution engine
-- **`Nexus\Export`** - Multi-format export (PDF, Excel, CSV, JSON)
-- **`Nexus\Import`** - Data import with validation and transformation
-- **`Nexus\Analytics`** - Business intelligence, predictive models
-- **`Nexus\Document`** - Document management with versioning
-
-### Compliance & Governance (4 packages)
-- **`Nexus\Compliance`** - Process enforcement, operational compliance
-- **`Nexus\Statutory`** - Reporting compliance, statutory filing
-- **`Nexus\Backoffice`** - Company structure, offices, departments
-- **`Nexus\OrgStructure`** - Organizational hierarchy management
-
-### Support & Utilities (3 packages)
-- **`Nexus\Storage`** - File storage abstraction layer
-- **`Nexus\ProjectManagement`** - Projects, tasks, timesheets, milestones
-- **`Nexus\FeatureFlags`** - Feature flag management
-
-## 🛠️ Getting Started
-
-### Prerequisites
-- PHP 8.3+
-- Composer
-
-### Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url> nexus
-   cd nexus
-   ```
-
-2. **Install Dependencies:**
-   ```bash
-   composer install
-   ```
-
-3. **Explore Packages:**
-   ```bash
-   # Browse available packages
-   ls packages/
-   
-   # Read package documentation
-   cat packages/Tenant/README.md
-   cat packages/Finance/README.md
-   ```
-
-## 📚 Usage
-
-### Installing a Package
-
-Each package can be installed independently in your PHP application:
+## Installation
 
 ```bash
-# In your Laravel, Symfony, or other PHP application
-composer require nexus/tenant
-composer require nexus/finance
-composer require nexus/receivable
+composer require nexus/statutory
 ```
 
-### Implementing Package Contracts
+## Architecture
 
-Packages define interfaces, your application provides implementations:
+This package follows the Nexus architecture principles:
+
+- **Framework-Agnostic**: No Laravel dependencies in core services
+- **Contract-Driven**: All external dependencies defined via interfaces
+- **Adapter Pattern**: Country-specific implementations via adapters
+- **Default Implementations**: Safe defaults for basic functionality
+- **Value Objects**: Immutable objects for domain concepts (FilingFrequency, ReportFormat)
+
+### Package Structure
+
+```
+packages/Statutory/
+├── composer.json
+├── LICENSE
+├── README.md
+└── src/
+    ├── Contracts/                          # Interfaces
+    │   ├── PayrollStatutoryInterface.php
+    │   ├── ReportMetadataInterface.php
+    │   ├── StatutoryReportInterface.php
+    │   ├── StatutoryReportRepositoryInterface.php
+    │   └── TaxonomyReportGeneratorInterface.php
+    ├── Adapters/                           # Default implementations
+    │   ├── DefaultAccountingAdapter.php
+    │   └── DefaultPayrollStatutoryAdapter.php
+    ├── Services/                           # Business logic
+    │   └── StatutoryReportManager.php
+    ├── ValueObjects/                       # Immutable domain objects
+    │   ├── FilingFrequency.php
+    │   └── ReportFormat.php
+    └── Exceptions/                         # Domain exceptions
+        ├── CalculationException.php
+        ├── DataExtractionException.php
+        ├── InvalidDeductionTypeException.php
+        ├── InvalidReportTypeException.php
+        ├── ReportNotFoundException.php
+        └── ValidationException.php
+```
+
+## Usage
+
+### Generating Statutory Reports
 
 ```php
-// Package defines the interface
-namespace Nexus\Tenant\Contracts;
+use Nexus\Statutory\Services\StatutoryReportManager;
+use Nexus\Statutory\ValueObjects\ReportFormat;
 
-interface TenantRepositoryInterface
-{
-    public function findById(string $id): ?TenantInterface;
-    public function save(TenantInterface $tenant): void;
-}
+// Generate a profit & loss report
+$reportId = $reportManager->generateReport(
+    tenantId: 'tenant-123',
+    reportType: 'profit_loss',
+    startDate: new DateTimeImmutable('2025-01-01'),
+    endDate: new DateTimeImmutable('2025-12-31'),
+    format: ReportFormat::JSON,
+    options: ['include_details' => true]
+);
 
-// Your Laravel application implements it
-namespace App\Repositories;
+// Get the generated report
+$report = $reportManager->getReport($reportId);
 
-use Nexus\Tenant\Contracts\TenantRepositoryInterface;
-use Nexus\Tenant\Contracts\TenantInterface;
-use App\Models\Tenant;
-
-final class EloquentTenantRepository implements TenantRepositoryInterface
-{
-    public function findById(string $id): ?TenantInterface
-    {
-        return Tenant::find($id);
-    }
-    
-    public function save(TenantInterface $tenant): void
-    {
-        Tenant::updateOrCreate(['id' => $tenant->getId()], [
-            'name' => $tenant->getName(),
-            'status' => $tenant->getStatus()->value,
-        ]);
-    }
-}
-
-// Bind in service provider
-$this->app->bind(
-    TenantRepositoryInterface::class,
-    EloquentTenantRepository::class
+// Get all reports for a tenant
+$reports = $reportManager->getReports(
+    tenantId: 'tenant-123',
+    reportType: 'profit_loss',
+    from: new DateTimeImmutable('2025-01-01'),
+    to: new DateTimeImmutable('2025-12-31')
 );
 ```
 
-### Using Package Services
+### Payroll Statutory Calculations
 
 ```php
-use Nexus\Tenant\Contracts\TenantContextInterface;
-use Nexus\Finance\Contracts\GeneralLedgerManagerInterface;
+use Nexus\Statutory\Adapters\DefaultPayrollStatutoryAdapter;
 
-class InvoiceController
-{
-    public function __construct(
-        private readonly TenantContextInterface $tenantContext,
-        private readonly GeneralLedgerManagerInterface $glManager
-    ) {}
-    
-    public function store(Request $request)
-    {
-        $tenantId = $this->tenantContext->getCurrentTenantId();
-        
-        // Use package business logic
-        $this->glManager->postJournalEntry($journalEntry);
-    }
+// Calculate statutory deductions (default: zero deductions)
+$deductions = $payrollAdapter->calculateDeductions(
+    tenantId: 'tenant-123',
+    employeeId: 'emp-001',
+    grossSalary: 5000.00,
+    payDate: new DateTimeImmutable('2025-11-30'),
+    employeeData: [
+        'citizenship' => 'MYS',
+        'tax_exemption' => false,
+    ]
+);
+```
+
+### Report Metadata
+
+```php
+use Nexus\Statutory\Adapters\DefaultAccountingAdapter;
+
+$adapter = new DefaultAccountingAdapter($logger);
+$metadata = $adapter->getReportMetadata('profit_loss');
+
+echo $metadata->getReportName();           // "Profit & Loss Statement"
+echo $metadata->getCountryCode();          // "DEFAULT"
+echo $metadata->getFilingFrequency()->value; // "On-Demand"
+echo $metadata->getSchemaVersion();        // "v1.0"
+
+$formats = $metadata->getSupportedFormats();
+foreach ($formats as $format) {
+    echo $format->getMimeType();           // "application/json", "text/csv"
 }
 ```
 
-## 🏛️ Architectural Principles
+## Supported Report Formats
 
-### 1. Framework Agnosticism
-- No Laravel, Symfony, or framework-specific code in packages
-- Use PSR interfaces (`psr/log`, `psr/http-client`, `psr/cache`)
-- All framework integration happens in consuming applications
+```php
+use Nexus\Statutory\ValueObjects\ReportFormat;
 
-### 2. Contract-Driven Design
-- Packages define needs via interfaces
-- Consuming applications provide implementations
-- Dependency injection for all external dependencies
+ReportFormat::JSON;   // application/json (.json)
+ReportFormat::XML;    // application/xml (.xml)
+ReportFormat::XBRL;   // application/xbrl+xml (.xbrl)
+ReportFormat::CSV;    // text/csv (.csv)
+ReportFormat::PDF;    // application/pdf (.pdf)
+ReportFormat::EXCEL;  // application/vnd...spreadsheetml.sheet (.xlsx)
 
-### 3. Stateless Design
-- No session state in package classes
-- Long-term state externalized via storage interfaces
-- Horizontally scalable by design
+// Check format capabilities
+$format = ReportFormat::XBRL;
+$format->isMachineReadable();         // true
+$format->supportsDigitalSignature();  // true
+```
 
-### 4. Modern PHP Standards
-- PHP 8.3+ with strict types
-- Constructor property promotion
-- Readonly properties for dependencies
-- Native enums for fixed value sets
-- Match expressions over switch statements
+## Filing Frequencies
 
-## 📖 Documentation
+```php
+use Nexus\Statutory\ValueObjects\FilingFrequency;
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Architectural guidelines and rules
-- **[docs/NEXUS_PACKAGES_REFERENCE.md](docs/NEXUS_PACKAGES_REFERENCE.md)** - Complete package capabilities reference
-- **[.github/copilot-instructions.md](.github/copilot-instructions.md)** - Development guidelines
-- **Package READMEs** - Individual package documentation (e.g., `packages/Finance/README.md`)
+FilingFrequency::MONTHLY;        // 12 filings per year
+FilingFrequency::QUARTERLY;      // 4 filings per year
+FilingFrequency::SEMI_ANNUALLY;  // 2 filings per year
+FilingFrequency::ANNUALLY;       // 1 filing per year
+FilingFrequency::BIENNIAL;       // Every 2 years
+FilingFrequency::ON_DEMAND;      // No scheduled filing
 
-## 🤝 Contributing
+// Get filing details
+$frequency = FilingFrequency::QUARTERLY;
+$frequency->getMonthInterval();   // 3
+$frequency->getFilingsPerYear();  // 4
+$frequency->isScheduled();        // true
+```
 
-Please refer to [ARCHITECTURE.md](ARCHITECTURE.md) for detailed architectural guidelines.
+## Default Adapters
 
-### Key Rules:
-1. **Packages must be framework-agnostic** - No Laravel, Symfony, or framework-specific code
-2. **Packages define persistence needs via Contracts** - No migrations or models in packages
-3. **All dependencies must be interfaces** - Use dependency injection
-4. **Modern PHP 8.3+ standards** - Use latest language features
-5. **Consult NEXUS_PACKAGES_REFERENCE.md** - Avoid reimplementing existing functionality
+The package includes two default adapters:
 
-### Creating a New Package
+1. **DefaultAccountingAdapter**: Basic P&L, Balance Sheet, Trial Balance (JSON/CSV only)
+2. **DefaultPayrollStatutoryAdapter**: Zero deductions (safe default for testing)
 
-1. Create `packages/NewPackage/` directory
-2. Run `composer init` (require `"php": "^8.3"`)
-3. Define PSR-4 autoloader: `"Nexus\\NewPackage\\": "src/"`
-4. Create `src/Contracts/`, `src/Services/`, `src/Exceptions/`
-5. Write comprehensive `README.md` with usage examples
-6. Add MIT `LICENSE` file
-7. Update root `composer.json` repositories array
+These adapters provide safe defaults when no country-specific adapter is configured.
 
-## 📄 License
+## Creating Country-Specific Adapters
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+To create a country-specific adapter (e.g., Malaysia):
 
-## 🔗 Links
+```php
+namespace Nexus\Statutory\Adapters;
 
-- **Package Reference Guide**: [docs/NEXUS_PACKAGES_REFERENCE.md](docs/NEXUS_PACKAGES_REFERENCE.md)
-- **Architecture Documentation**: [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Implementation Summaries**: `docs/*_IMPLEMENTATION_SUMMARY.md`
+use Nexus\Statutory\Contracts\PayrollStatutoryInterface;
+
+final class MalaysiaPayrollAdapter implements PayrollStatutoryInterface
+{
+    public function calculateDeductions(
+        string $tenantId,
+        string $employeeId,
+        float $grossSalary,
+        \DateTimeImmutable $payDate,
+        array $employeeData = []
+    ): array {
+        return [
+            'epf_employee' => $this->calculateEPF($grossSalary, 'employee'),
+            'epf_employer' => $this->calculateEPF($grossSalary, 'employer'),
+            'socso_employee' => $this->calculateSOCSO($grossSalary, 'employee'),
+            'socso_employer' => $this->calculateSOCSO($grossSalary, 'employer'),
+            'eis_employee' => $this->calculateEIS($grossSalary, 'employee'),
+            'eis_employer' => $this->calculateEIS($grossSalary, 'employer'),
+            'pcb' => $this->calculatePCB($grossSalary, $employeeData),
+        ];
+    }
+
+    public function getCountryCode(): string
+    {
+        return 'MYS';
+    }
+
+    // ... implement other methods
+}
+```
+
+## Integration with Applications
+
+This package defines contracts that must be implemented by the consuming application:
+
+1. **Repository Implementations**: Implement all repository interfaces with Eloquent models
+2. **Entity Implementations**: Implement all entity interfaces
+3. **Database Migrations**: Create required tables in application layer
+4. **Service Provider Bindings**: Bind interfaces to implementations in IoC container
+5. **Adapter Registration**: Register country-specific adapters based on feature flags
+
+### Required Tables (Application Layer)
+
+```sql
+-- Statutory reports
+statutory_reports (id, tenant_id, report_type, start_date, end_date, format, status, file_path, metadata, created_at, updated_at)
+
+-- Report instances (for versioning)
+statutory_report_instances (id, report_id, version, generated_at, generated_by, file_path, checksum)
+
+-- Rate tables (for payroll calculations)
+statutory_rate_tables (id, country_code, deduction_type, effective_from, effective_to, rate_config, created_at, updated_at)
+```
+
+## Dependencies
+
+- **PHP**: ^8.3
+- **nexus/finance**: *@dev (for financial data extraction)
+- **nexus/period**: *@dev (for period management)
+- **psr/log**: ^3.0 (for logging interface)
+
+## Development
+
+### Running Tests
+
+```bash
+composer test
+```
+
+### Code Style
+
+This package follows PSR-12 coding standards.
 
 ---
 
-**Nexus** - Building the future of modular ERP systems with framework-agnostic PHP packages.
+## 📖 Documentation
+
+### Quick Links
+- 📘 [Getting Started Guide](docs/getting-started.md) - Setup, core concepts, and first integration
+- 📚 [API Reference](docs/api-reference.md) - Complete interface and service documentation
+- 🔧 [Integration Guide](docs/integration-guide.md) - Laravel and Symfony integration examples
+- 💡 [Basic Examples](docs/examples/basic-usage.php) - Report generation basics
+- 🚀 [Advanced Examples](docs/examples/advanced-usage.php) - Country adapters, XBRL, multi-format
+
+### Package Documentation
+- 📋 [Requirements](REQUIREMENTS.md) - Detailed requirements specifications (61 requirements)
+- 📊 [Implementation Summary](IMPLEMENTATION_SUMMARY.md) - Development progress and metrics
+- ✅ [Test Suite Summary](TEST_SUITE_SUMMARY.md) - Test coverage and strategy (55 tests planned)
+- 💰 [Valuation Matrix](VALUATION_MATRIX.md) - Package valuation and ROI analysis ($95K)
+
+### Additional Resources
+- 🏗️ [Architecture Guidelines](../../ARCHITECTURE.md) - Nexus architecture principles
+- 📖 [Package Reference](../../docs/NEXUS_PACKAGES_REFERENCE.md) - All Nexus packages overview
+- 📑 [Compliance/Statutory Analysis](../../docs/COMPLIANCE_STATUTORY_READINESS_ANALYSIS.md) - Package separation rationale
+
+## Integration with Other Packages
+
+This package integrates with:
+- **Nexus\Finance** - Financial data extraction (GL accounts, trial balance)
+- **Nexus\Period** - Period validation and fiscal year management
+- **Nexus\Tenant** - Multi-tenancy context
+- **Nexus\Payroll** - Payroll statutory calculation delegation
+- **Nexus\Accounting** - Financial statement generation
+- **Nexus\Compliance** - Operational compliance (separate from statutory reporting)
+
+## License
+
+MIT License. See [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please follow the Nexus architecture principles:
+
+1. Keep the package framework-agnostic
+2. Define all dependencies via interfaces
+3. Use immutable Value Objects for domain concepts
+4. Place all business logic in services
+5. No database access or migrations in this package
+6. Country-specific logic belongs in separate adapter packages
+
+## Support
+
+For issues, questions, or contributions, please refer to the main Nexus monorepo documentation.
